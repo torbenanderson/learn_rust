@@ -325,6 +325,115 @@ This pattern is used for:
 - **User-friendly** - Clear error messages instead of crashes
 - **Production-ready** - Proper exit codes and error reporting
 
+### **Unit Tests**
+
+#### **Before:**
+```rust
+// No tests - just the main function
+fn main() {
+    let random_number = generate_random_number();
+    println!("Hello, world! {}", random_number);
+}
+```
+
+#### **After:**
+```rust
+// Main code with comprehensive tests
+fn main() {
+    // Production-ready error handling
+    match generate_random_number() {
+        Ok(random_number) => {
+            println!("Hello, world! {}", random_number);
+        }
+        Err(error) => {
+            eprintln!("Error generating random number: {}", error);
+            std::process::exit(1);
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_random_number_success() {
+        let result = generate_random_number();
+        assert!(result.is_ok(), "Function should return Ok for successful generation");
+        
+        if let Ok(number) = result {
+            assert!(number >= MIN_NUMBER, "Number should be >= MIN_NUMBER");
+            assert!(number <= MAX_NUMBER, "Number should be <= MAX_NUMBER");
+        }
+    }
+
+    #[test]
+    fn test_constants_are_valid() {
+        assert!(MIN_NUMBER < MAX_NUMBER, "MIN_NUMBER should be less than MAX_NUMBER");
+        assert!(MIN_NUMBER >= 1, "MIN_NUMBER should be at least 1");
+        assert!(MAX_NUMBER <= 1000, "MAX_NUMBER should be reasonable");
+    }
+}
+```
+
+#### **What Unit Tests Do:**
+
+**Unit tests** verify that individual functions work correctly:
+- **Test individual functions** - Verify they work as expected
+- **Use `assert!` and `panic!`** - For test failures
+- **Run with `cargo test`** - Separate from documentation examples
+- **Ensure code quality** - Catch bugs before they reach users
+
+#### **Test Organization Approaches:**
+
+**Common approaches:**
+- **Same file** (what we did) - Good for simple projects
+- **Separate `tests.rs` file** - Good for larger projects
+- **`tests/` directory** - Good for complex projects with many test files
+
+#### **Key Test Concepts:**
+
+**`#[test]` attribute:**
+- Marks a function as a unit test
+- Only compiled when running `cargo test`
+- Can use any function name that describes what you're testing
+
+**`assert!` macro:**
+- Checks if a condition is true
+- If false, the test fails with a panic
+- Example: `assert!(result.is_ok(), "Should return Ok")`
+
+**`#[cfg(test)]` attribute:**
+- Only compiles the module when running tests
+- Keeps test code out of production builds
+- Reduces executable size and compilation time
+
+#### **Running Tests:**
+
+```bash
+cargo test                    # Run all tests
+cargo test -- --nocapture    # Show println! output
+cargo test test_name         # Run specific test
+```
+
+#### **Test Output Example:**
+
+```
+running 3 tests
+test tests::test_constants_are_valid ... ok
+test tests::test_generate_random_number_success ... ok
+test tests::test_multiple_generations_are_different ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
+
+#### **Benefits:**
+- **Catch bugs early** - Tests run before deployment
+- **Document behavior** - Tests show how functions should work
+- **Refactor safely** - Tests ensure changes don't break existing code
+- **Confidence** - Know your code works as expected
+- **Regression prevention** - Catch when new code breaks old functionality
+
 ## Running the Project
 
 ```bash
