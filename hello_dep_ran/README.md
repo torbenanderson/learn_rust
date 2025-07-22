@@ -79,6 +79,89 @@ let random_number = rand::rng().random_range(MIN_NUMBER..=MAX_NUMBER);
 - **Type safety** - Explicit type annotations
 - **Performance** - No runtime memory allocation
 
+### **Documentation Comments (`///`)**
+
+#### **Before:**
+```rust
+// Constants for magic numbers
+const MIN_NUMBER: u32 = 1;
+const MAX_NUMBER: u32 = 100;
+
+fn generate_random_number() -> u32 {
+    rand::rng().random_range(MIN_NUMBER..=MAX_NUMBER)
+}
+```
+
+#### **After:**
+```rust
+/// Constants for magic numbers used in random number generation
+const MIN_NUMBER: u32 = 1;
+const MAX_NUMBER: u32 = 100;
+
+/// Generates a random number between MIN_NUMBER and MAX_NUMBER
+/// 
+/// # Returns
+/// A random u32 between the configured min and max values
+/// 
+/// # Examples
+/// 
+/// ```
+/// let number = generate_random_number();
+/// assert!(number >= MIN_NUMBER && number <= MAX_NUMBER);
+/// ```
+fn generate_random_number() -> u32 {
+    rand::rng().random_range(MIN_NUMBER..=MAX_NUMBER)
+}
+```
+
+#### **Difference Between `//` and `///`:**
+
+**`//` - Regular Comments:**
+- **For developers only** - Not part of the public API
+- **Ignored by tools** - No special processing
+- **Just for reading** - Helps understand code
+- **Use for:** Implementation details, temporary notes, debugging comments
+
+**`///` - Documentation Comments:**
+- **Becomes public documentation** - Part of the API docs
+- **Processed by tools** - `cargo doc` uses these
+- **IDE support** - Shows on hover (when working properly)
+- **Can include examples** - That become tests
+- **Markdown support** - Can use formatting
+- **Use for:** Public API documentation, function descriptions, examples
+
+#### **IDE Support and Troubleshooting:**
+
+**How to see documentation in Cursor:**
+1. **Hover over function names** - `generate_random_number`, `main`, etc.
+2. **Hover over constant names** - `MIN_NUMBER`, `MAX_NUMBER`
+3. **Wait a moment** - Sometimes takes a second to load
+
+**If hover isn't working:**
+1. **Check rust-analyzer** - Look for rust-analyzer icon in status bar
+2. **Restart Cursor** - Close and reopen the application
+3. **Reload window** - `Cmd + Shift + P` → "Developer: Reload Window"
+4. **Check status bar** - Should show rust-analyzer is working
+
+**Alternative ways to see documentation:**
+- **`Cmd + Click`** on function name → Go to definition
+- **`Cmd + Shift + P`** → "Rust Analyzer: Show Documentation"
+- **`cargo doc --open`** → Generate and open HTML documentation
+
+#### **Documentation Examples Become Tests:**
+
+The examples in `///` comments become actual tests:
+```bash
+cargo test  # Runs the examples in documentation comments
+```
+
+#### **Benefits:**
+- **Self-documenting code** - Clear function and constant descriptions
+- **IDE integration** - Hover shows documentation
+- **Generated docs** - `cargo doc` creates HTML documentation
+- **Testable examples** - Documentation examples become tests
+- **Public API** - Documents what others can use
+
 ## Running the Project
 
 ```bash
