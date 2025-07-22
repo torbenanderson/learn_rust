@@ -41,6 +41,44 @@ println!("Hello, world! {}", random_number);
 4. **Descriptive variable name** - `random_number` instead of inline
 5. **Rust style** - Added blank line after imports
 
+## Additional Improvements
+
+### **Constants for Magic Numbers**
+
+#### **Before:**
+```rust
+let random_number = rand::rng().random_range(1..=100);
+```
+
+#### **After:**
+```rust
+const MIN_NUMBER: u32 = 1;
+const MAX_NUMBER: u32 = 100;
+
+let random_number = rand::rng().random_range(MIN_NUMBER..=MAX_NUMBER);
+```
+
+#### **When to Use `const` vs `let`:**
+
+**Use `const` for:**
+- **Compile-time constants** - Values known at compile time
+- **Magic numbers** - Hard-coded values like 1, 100, 42
+- **Configuration values** - Settings that don't change
+- **Mathematical constants** - π, e, etc.
+- **Global scope** - Values used across multiple functions
+
+**Use `let` for:**
+- **Runtime values** - Computed or calculated values
+- **Function results** - Return values from functions
+- **Temporary variables** - Values used only in current scope
+- **Local scope** - Values only needed in current function
+
+#### **Benefits:**
+- **Self-documenting code** - `MIN_NUMBER` vs `1`
+- **Easy to change** - Update in one place
+- **Type safety** - Explicit type annotations
+- **Performance** - No runtime memory allocation
+
 ## Running the Project
 
 ```bash
