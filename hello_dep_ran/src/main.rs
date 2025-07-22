@@ -19,6 +19,13 @@ const MAX_NUMBER: u32 = 100;
 /// }
 /// ```
 fn generate_random_number() -> Result<u32, String> {
+    // TODO: Add more sophisticated error handling
+    // FIXME: This error simulation is too simplistic for production
+    // BUG: Sometimes returns the same number twice in a row
+    // HACK: Using system time for error simulation
+    // NOTE: This is just for learning purposes
+    // XXX: Consider using a proper random seed
+    
     // Simulate a potential error (in real code, this might be a network call, file read, etc.)
     if std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -30,6 +37,9 @@ fn generate_random_number() -> Result<u32, String> {
     Ok(rand::rng().random_range(MIN_NUMBER..=MAX_NUMBER))
 }
 
+// TODO: Add more sophisticated error handling
+// This function needs improvement: todo!()
+
 /// Main function that demonstrates random number generation
 /// 
 /// Generates a random number and prints it with a greeting message
@@ -38,7 +48,10 @@ fn main() {
     // Production-ready error handling
     match generate_random_number() {
         Ok(random_number) => {
-            println!("Hello, world! {}", random_number);
+    println!("Hello, world! {}", random_number);
+            // LEARN: This is how pattern matching works in Rust
+            // REVIEW: Consider adding more error cases
+            // OPTIMIZE: Could cache the random number generator
         }
         Err(error) => {
             eprintln!("Error generating random number: {}", error);
@@ -50,6 +63,9 @@ fn main() {
             std::process::exit(1);
         }
     }
+    
+    // FIXME: incorrect syntax?
+    let _s = todo!();  // This is ACTIVE CODE that will panic - _s uses underscore to silence "unused variable" warning
 } // <- This closes the main() function, but main module scope continues
 // The main module is defined by the entire main.rs file
 // What Defines a Module:
@@ -133,6 +149,7 @@ use super::*;
             // Check that both numbers are within the valid range
             assert!(num1 >= MIN_NUMBER && num1 <= MAX_NUMBER);
             assert!(num2 >= MIN_NUMBER && num2 <= MAX_NUMBER);
+  
         }
     }
 }

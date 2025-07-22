@@ -21,6 +21,13 @@ A simple Rust project for learning about dependencies, Cargo.toml, and basic Rus
 - String formatting with `println!`
 - Using external crate functions ([`rand::rng().random_range()`](https://docs.rs/rand/latest/rand/fn.rng.html))
 
+### **Todo Tree Extension**
+- Configuring Todo Tree for black text on white background highlighting
+- Using TODO, FIXME, BUG, HACK tags in comments
+- Highlighting Rust macros like `todo!()`, `panic!()`, `unimplemented!()`
+- Managing tasks and placeholders in code
+- Understanding the `!` (never) type and `todo!()` macro behavior
+
 ## Code Improvements Made
 
 ### **Original Code:**
@@ -445,6 +452,176 @@ cargo run
 ## Dependencies
 
 - `rand = "0.9.0"` - For random number generation
+
+## Todo Tree Extension Configuration
+
+### **What Todo Tree Does**
+- **Highlights TODO tags** in your code with custom styling
+- **Shows a sidebar panel** with all your TODO items
+- **Recognizes Rust macros** like `todo!()`, `panic!()`, `unimplemented!()`
+- **Helps manage tasks** and placeholders in your codebase
+
+### **Configuration Setup**
+The project includes a `.vscode/settings.json` file with Todo Tree configuration for black text on white background highlighting. The configuration includes:
+
+**Supported Tags:**
+- All comment tags: `TODO:`, `FIXME:`, `BUG:`, `HACK:`, `XXX:`, `IDEA:`, `NOTE:`, `REVIEW:`, `CHANGED:`, `WARNING:`, `WARN:`
+- Rust macros: `todo!`, `panic!`, `unimplemented!`
+
+**Highlighting Style:**
+- **Black text** on **white background** for all tags
+- **Custom icons** for different tag types (check, alert, bug, zap, etc.)
+- **Enabled highlighting** in code and sidebar
+
+**Exclusions:**
+- Ignores common directories like `node_modules`, `target`, `.vscode`, etc.
+- Prevents Todo Tree from scanning build artifacts and IDE files
+
+The full configuration is in `.vscode/settings.json` and includes proper regex patterns and exclusion rules.
+
+### **How to Use Todo Tree**
+
+#### **Opening the Todo Tree Panel:**
+1. **Press**: `Cmd + Shift + P`
+2. **Type**: `Todo Tree: Focus on Todo Tree View`
+3. **Press Enter**
+
+#### **Supported Tags:**
+- **`TODO:`** - Tasks to be completed
+- **`FIXME:`** - Code that needs fixing
+- **`BUG:`** - Known bugs or issues
+- **`HACK:`** - Temporary workarounds
+- **`XXX:`** - Important notes or warnings
+- **`IDEA:`** - Ideas for future improvements
+- **`NOTE:`** - General notes
+- **`REVIEW:`** - Code that needs review
+- **`CHANGED:`** - Recently changed code
+- **`WARNING:`** - Warning messages
+- **`WARN:`** - Short warnings
+
+#### **Rust Macros:**
+- **`todo!()`** - Placeholder for unimplemented code (Note: These are code macros, not comment tags, so they may not be highlighted by Todo Tree)
+- **`panic!()`** - Code that will crash the program
+- **`unimplemented!()`** - Unimplemented functionality
+
+### **Understanding `todo!()` and the `!` Type**
+
+#### **What `todo!()` Does:**
+```rust
+let s: ! = todo!("Implement sophisticated error handling"); // This will crash the program when run
+```
+
+- **`todo!()`** is a Rust macro that **panics** (crashes) with a message
+- **It's a placeholder** for code you haven't written yet
+- **When the program runs**, it crashes with your custom message
+- **Best practice**: Always include a descriptive message in the brackets
+- **Todo Tree sidebar**: Shows the message from the brackets, making it much more useful
+
+#### **Why Use `todo!()` Instead of "Skipping":**
+- **Fail fast philosophy** - You notice immediately that code isn't done
+- **Prevents shipping incomplete code** - Can't accidentally deploy placeholders
+- **Forces implementation** - You must implement the missing functionality
+
+#### **The `!` (Never) Type:**
+- **`!`** is Rust's "never type" - means "this will never return normally"
+- **Used for functions that:**
+  - Panic (crash the program)
+  - Loop forever
+  - Exit the program
+- **Not for protection** - it guarantees the program will crash
+
+#### **Better Alternatives for "Skipping":**
+
+**Option A: Return a default value (Safe, no highlighting)**
+```rust
+fn calculate_tax(income: f64) -> f64 {
+    // TODO: Implement real tax calculation
+    return 0.0; // Safe default - program continues
+}
+```
+- **✅ Safe** - Program continues running
+- **❌ No highlighting** - Todo Tree won't highlight this
+- **✅ Production ready** - Won't crash
+- **❌ Silent** - Easy to forget about the TODO
+
+**Option B: Use `unimplemented!()` with a message (Highlighted, crashes)**
+```rust
+fn calculate_tax(income: f64) -> f64 {
+    unimplemented!("Tax calculation with proper brackets and deductions");
+}
+```
+- **✅ Highlighted** - Todo Tree will highlight `unimplemented!`
+- **❌ Crashes** - Program stops with error message
+- **✅ Visible** - You'll notice immediately it's not done
+- **❌ Not production ready** - Will crash when called
+
+**Option C: Use `panic!()` with context (Highlighted, crashes)**
+```rust
+fn calculate_tax(income: f64) -> f64 {
+    panic!("Tax calculation not implemented for income: {}", income);
+}
+```
+- **✅ Highlighted** - Todo Tree will highlight `panic!`
+- **❌ Crashes** - Program stops with detailed error message
+- **✅ Informative** - Shows context about what failed
+- **❌ Not production ready** - Will crash when called
+
+**Recommendation:**
+- **Use Option A** for production code that needs to continue
+- **Use Option B** for development placeholders (highlighted)
+- **Use Option C** for critical paths that should never be called
+
+### **Important Note About Rust Macros**
+**Todo Tree is designed to highlight comment tags, not code macros.** The `todo!()`, `panic!()`, and `unimplemented!()` macros are Rust code, not comments, so they may not be highlighted by Todo Tree in the same way as comment tags.
+
+**What WILL be highlighted:**
+- `// TODO: Add error handling`
+- `// FIXME: This needs fixing`
+- `// BUG: Memory leak here`
+
+**What may NOT be highlighted:**
+- `todo!("Add error handling")`
+- `panic!("Critical error")`
+- `unimplemented!("Not done yet")`
+
+**Best practice:** Use comment tags for Todo Tree highlighting, and use macros for actual code placeholders.
+
+### **Testing Todo Tree Highlighting**
+The project includes two simple test files in the `src/` directory that demonstrate Todo Tree highlighting features:
+
+#### **1. `src/test_todo_tree.rs` - Comment Tags**
+This file tests all Todo Tree comment tags:
+- **`TODO:`** - Tasks to be completed
+- **`FIXME:`** - Code that needs fixing  
+- **`BUG:`** - Known bugs or issues
+- **`HACK:`** - Temporary workarounds
+- **`XXX:`** - Important notes or warnings
+- **`IDEA:`** - Ideas for future improvements
+- **`NOTE:`** - General notes
+- **`REVIEW:`** - Code that needs review
+- **`CHANGED:`** - Recently changed code
+- **`WARNING:`** - Warning messages
+- **`WARN:`** - Short warnings
+
+**How to test:**
+1. Open `src/test_todo_tree.rs` in Cursor
+2. Look for black text on white background highlighting in the code
+3. Open Todo Tree panel (`Cmd + Shift + P` → "Todo Tree: Focus on Todo Tree View")
+4. You should see all the comment tags listed in the sidebar
+
+#### **2. `src/test_macro_highlighting.rs` - Rust Macros**
+This file tests Rust macro highlighting:
+- **`todo!()`** - Placeholder for unimplemented code
+- **`panic!()`** - Code that will crash the program
+- **`unimplemented!()`** - Unimplemented functionality
+
+**How to test:**
+1. Open `src/test_macro_highlighting.rs` in Cursor
+2. Look for black text on white background highlighting on the macro lines
+3. Open Todo Tree panel (`Cmd + Shift + P` → "Todo Tree: Focus on Todo Tree View")
+4. You should see the macros listed in the sidebar
+
+**Note:** Rust macros may not be highlighted as consistently as comment tags, as Todo Tree is primarily designed for comment-based tags.
 
 ## Development Tools
 

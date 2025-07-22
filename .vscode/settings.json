@@ -6,5 +6,136 @@
     },
     "rust-analyzer.checkOnSave": true,
     "rust-analyzer.cargo.buildScripts.enable": true,
-    "rust-analyzer.procMacro.enable": true
+    "rust-analyzer.procMacro.enable": true,
+    "todo-tree.general.tags": [
+        "BUG:",
+        "HACK:",
+        "FIXME:",
+        "TODO:",
+        "XXX:",
+        "IDEA:",
+        "NOTE:",
+        "REVIEW:",
+        "CHANGED:",
+        "WARNING:",
+        "WARN:",
+        "todo!",
+        "panic!",
+        "unimplemented!"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "TODO:": {
+            "icon": "check",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "FIXME:": {
+            "icon": "alert",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "BUG:": {
+            "icon": "bug",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "HACK:": {
+            "icon": "zap",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "XXX:": {
+            "icon": "alert",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "IDEA:": {
+            "icon": "lightbulb",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "NOTE:": {
+            "icon": "note",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "REVIEW:": {
+            "icon": "eye",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "CHANGED:": {
+            "icon": "refresh",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "WARNING:": {
+            "icon": "warning",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "WARN:": {
+            "icon": "warning",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "todo!": {
+            "icon": "check",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "panic!": {
+            "icon": "alert",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        },
+        "unimplemented!": {
+            "icon": "zap",
+            "foreground": "#000000",
+            "background": "#ffffff",
+            "iconColour": "#000000"
+        }
+    },
+    "todo-tree.highlights.enableHighlight": true,
+    "todo-tree.highlights.highlightInRanges": true,
+    "todo-tree.general.excludeGlobs": [
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/*.code-search",
+        "**/.vscode/**",
+        "**/target/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.git/**",
+        "**/Cargo.lock",
+        "**/package-lock.json",
+        "**/yarn.lock"
+    ],
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/.vscode": true,
+        "**/target": true,
+        "**/dist": true,
+        "**/build": true,
+        "**/.git": true,
+        "**/Cargo.lock": true,
+        "**/package-lock.json": true,
+        "**/yarn.lock": true
+    },
+    "todo-tree.general.regex": "(//|#|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.)\\s*($TAGS)"
 } 
