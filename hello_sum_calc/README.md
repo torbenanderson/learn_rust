@@ -286,16 +286,16 @@ act push --verbose
 
 **Skip GitHub Actions:**
 ```bash
-# Skip CI/CD with commit message
+# Skip CI/CD with commit message (RECOMMENDED)
 git commit -m "feat: add new feature [skip ci]"
 git push
-
-# Skip CI/CD with push flag (skips all pre-push hooks)
-git push --no-verify
 
 # Skip specific workflow
 git commit -m "feat: add new feature [skip rust-ci]"
 git push
+
+# Skip local pre-push hooks (does NOT skip GitHub Actions)
+git push --no-verify
 ```
 
 ## Credits
