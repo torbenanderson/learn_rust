@@ -123,6 +123,27 @@ With the correct settings, you should see:
 - Quick-fix options in the editor
 - Warnings in the Problems panel
 
+## Clippy Modernization Wave
+
+This project also demonstrates how Clippy can be used to modernize existing code across projects.
+
+### Improvements Applied Across Projects
+
+**hello_dep_ran/src/main.rs:**
+- **uninlined_format_args**: Updated to use captured identifiers (`{random_number}` instead of `{}`)
+- **manual_range_contains**: Replaced manual range checks with `contains()` method
+- **assertions_on_constants**: Removed redundant constant assertions
+
+**hello_sum_calc/src/main.rs:**
+- **uninlined_format_args**: Updated to use captured identifiers (`{sum}` instead of `{}`)
+
+### Learning Outcomes
+
+- **Modern Rust 2021 features**: Captured identifiers in format strings
+- **Idiomatic patterns**: Using built-in range methods instead of manual comparisons
+- **Code quality**: Avoiding redundant checks that the compiler already handles
+- **Tool integration**: How Clippy helps improve existing code
+
 ## Credits
 
 This project was created to test rust-analyzer and Clippy integration as part of learning Rust development best practices.
