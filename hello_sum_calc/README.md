@@ -298,6 +298,23 @@ git push
 git push --no-verify
 ```
 
+## Potential Improvements
+
+For a comprehensive list of potential enhancements to the CI/CD workflow, see [`.github/workflows/potential-improvements.md`](../.github/workflows/potential-improvements.md).
+
+This document outlines 9 key improvements including:
+- **Caching Strategy** - Performance optimization
+- **Parallel Jobs** - Faster execution
+- **Matrix Testing** - Multi-toolchain support
+- **Error Handling** - Better failure reporting
+- **Documentation Testing** - Code example validation
+- **Conditional Jobs** - Smart execution
+- **Performance Monitoring** - Timing and metrics
+- **Advanced Security Scanning** - Enhanced vulnerability detection
+- **Code Coverage** - Test coverage reporting
+
+Each improvement includes implementation examples and priority levels for incremental adoption.
+
 ## Credits
 
 This project was created to test rust-analyzer and Clippy integration as part of learning Rust development best practices.
