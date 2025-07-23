@@ -1,0 +1,51 @@
+# Rust CI/CD Pipeline for Learn Rust Projects
+# This workflow ensures code quality and security across all Rust learning projects
+name: Rust CI
+
+# Trigger conditions: Run on pushes to main branch and pull requests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Define the build job
+jobs:
+  build:
+    # Use Ubuntu latest for consistent development environment (works better with M1 Max)
+    runs-on: ubuntu-latest
+    if: github.repository_owner != 'geminiduplication'  # Exclude the specified organization
+    
+    # Sequential steps to validate code quality
+    steps:
+      # Step 1: Set up the GitHub Actions environment
+      - name: Checkout code
+        uses: actions/checkout@v4  # Check out the repository code
+      
+      # Step 2: Set up Rust toolchain
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      
+      # Step 3: Install security auditing tool
+      - name: Install cargo-audit
+        run: cargo install cargo-audit  # Scans dependencies for known vulnerabilities
+      
+      # Step 4: Compile all Rust projects to check for compilation errors
+      - name: Build
+        run: cargo build --verbose  # Verbose output for detailed error reporting
+      
+      # Step 5: Run all unit tests to ensure code functionality
+      - name: Test
+        run: cargo test --verbose  # Verbose output shows which tests pass/fail
+      
+      # Step 6: Run Clippy linter to enforce Rust best practices
+      - name: Clippy
+        run: cargo clippy --verbose -- -D warnings  # Treat warnings as errors for strict quality
+      
+      # Step 7: Security audit of dependencies
+      - name: Audit
+        run: cargo audit  # Check for known security vulnerabilities in dependencies 
