@@ -25,11 +25,14 @@ A collection of Rust learning projects demonstrating different concepts and best
   - Development tools (CodeLLDB, Even Better TOML)
 - **Learning**: Production-ready Rust development practices
 
+
+
 ## Learning Progression
 
 1. **Start with `hello_rust`** - Basic Rust syntax and Cargo
 2. **Move to `hello_cargo`** - Understanding project structure
 3. **Complete with `hello_dep_ran`** - Advanced concepts and best practices
+4. **Explore `hello_sum_calc`** - Clippy linting and rust-analyzer configuration
 
 ## Development Environment
 
