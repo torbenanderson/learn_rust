@@ -42,6 +42,38 @@ All projects are configured with:
 - **CodeLLDB** for debugging
 - **Even Better TOML** for configuration files
 
+## Hot Reload with `cargo-watch`
+
+To enable a faster development cycle with automatic recompilation and re-running of your Rust project upon file changes, you can use `cargo-watch`. This tool provides "hot reload" functionality, giving you immediate feedback on your code changes.
+
+### Installation
+
+Install `cargo-watch` globally so you can use the `cargo watch` command:
+
+```bash
+cargo install cargo-watch
+```
+
+**Note:** This installs the tool globally, making `cargo watch` available as a command. Adding it as a dependency with `cargo add cargo-watch` only makes it available to your project, but doesn't install the binary tool.
+
+### Usage
+
+Once installed, you can use `cargo-watch` to monitor your source files and automatically re-run your application. Here's a common command:
+
+```bash
+cargo watch -q -c -w src/ -x 'run -q'
+```
+
+**Explanation of the flags:**
+- `-q` (quiet): Reduces the output from `cargo-watch` itself, keeping your terminal cleaner
+- `-c` (clear): Clears the terminal screen before each new run of your application, providing a fresh output
+- `-w src/` (watch directory): Specifies that `cargo-watch` should monitor the `src/` directory for any file changes. This is where your Rust source code resides
+- `-x 'run -q'` (execute command): This is the command that `cargo-watch` will execute whenever it detects changes
+  - `run`: Tells Cargo to compile and run your project
+  - `-q`: Makes the `cargo run` command also run in quiet mode, further reducing output
+
+This setup allows you to save your Rust files, and `cargo-watch` will automatically recompile and re-run your application, providing a seamless hot-reloading experience.
+
 ## Running Projects
 
 ```bash
