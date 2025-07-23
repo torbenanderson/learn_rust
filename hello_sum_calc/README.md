@@ -298,7 +298,7 @@ git push
 git push --no-verify
 ```
 
-## Potential Improvements
+## Potential Improvements!
 
 For a comprehensive list of potential enhancements to the CI/CD workflow, see [`.github/workflows/potential-improvements.md`](../.github/workflows/potential-improvements.md).
 
