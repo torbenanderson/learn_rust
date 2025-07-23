@@ -144,6 +144,146 @@ This project also demonstrates how Clippy can be used to modernize existing code
 - **Code quality**: Avoiding redundant checks that the compiler already handles
 - **Tool integration**: How Clippy helps improve existing code
 
+## GitHub Actions CI/CD
+
+This project includes a comprehensive GitHub Actions workflow for continuous integration and deployment.
+
+### Workflow Configuration
+
+The workflow (`.github/workflows/rust-ci.yml`) runs on every push to main and pull request:
+
+```yaml
+name: Rust CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install cargo-audit
+        run: cargo install cargo-audit
+      
+      - name: Build
+        run: cargo build --verbose
+      
+      - name: Test
+        run: cargo test --verbose
+      
+      - name: Clippy
+        run: cargo clippy --verbose -- -D warnings
+      
+      - name: Audit
+        run: cargo audit
+```
+
+### Workflow Steps
+
+1. **Checkout**: Downloads the repository code
+2. **Setup Rust**: Installs the stable Rust toolchain
+3. **Install cargo-audit**: Adds security vulnerability scanning
+4. **Build**: Compiles all workspace projects
+5. **Test**: Runs all unit tests across projects
+6. **Clippy**: Runs linting with warnings treated as errors
+7. **Audit**: Scans dependencies for security vulnerabilities
+
+### Local Testing with Act
+
+You can test the GitHub Actions workflow locally using `act`:
+
+```bash
+# Install act (if not already installed)
+brew install act
+
+# Test the workflow locally
+act push
+
+# Minimal output (like GitHub's interface)
+act push --quiet
+
+# Reuse Docker containers for faster testing
+act push --quiet --reuse
+
+# Suppress M1 Mac warnings
+act push --quiet --container-architecture linux/amd64
+
+# Test specific workflow
+act -W .github/workflows/rust-ci.yml push
+```
+
+### Act Configuration Tips
+
+**For Apple M1/M2 Macs:**
+```bash
+# Use AMD64 architecture to avoid compatibility issues
+act push --container-architecture linux/amd64
+```
+
+**For faster testing:**
+```bash
+# Reuse containers between runs
+act push --reuse
+
+# Skip Docker image updates
+act push --no-pull
+```
+
+**For debugging:**
+```bash
+# Verbose output for troubleshooting
+act push --verbose
+
+# List available actions
+act -l
+```
+
+### Workspace Benefits
+
+The workspace configuration enables:
+- **Single command builds**: `cargo build` builds all projects
+- **Unified testing**: `cargo test` runs tests across all projects
+- **Consistent dependencies**: All projects use the same dependency versions
+- **Simplified CI/CD**: One workflow handles all projects
+
+### GitHub Actions vs Local Testing
+
+| Feature | GitHub Actions | Local Act |
+|---------|---------------|-----------|
+| **Environment** | Ubuntu latest | Docker container |
+| **Speed** | Fast (GitHub runners) | Slower (Docker overhead) |
+| **Cost** | Free for public repos | Free (local resources) |
+| **Debugging** | Limited logs | Full access to container |
+| **Iteration** | Push → Wait → Check | Immediate feedback |
+
+### Troubleshooting
+
+**Common Issues:**
+- **Docker not running**: Start Docker Desktop before running `act`
+- **M1 compatibility**: Use `--container-architecture linux/amd64`
+- **Permission errors**: Ensure Docker has proper permissions
+- **Network issues**: Check Docker network configuration
+
+**Workflow Debugging:**
+```bash
+# See what act would run
+act -n
+
+# Dry run without executing
+act --dryrun
+
+# Debug specific step
+act push --verbose
+```
+
 ## Credits
 
 This project was created to test rust-analyzer and Clippy integration as part of learning Rust development best practices.
