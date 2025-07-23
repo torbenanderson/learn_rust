@@ -1,10 +1,12 @@
+fn calculate_sum(numbers: &[i32]) -> Result<i32, String> {
+    let sum = numbers.iter().sum();
+    Ok(sum)
+}
+
 fn main() {
-    let foo: i32 = 5;
-    let bar: i32 = 10; // This should show unused variable warning
-    let sum: i32 = foo + bar;
-    println!(
-        "
-    {foo} + {bar} = {sum}
-    "
-    );
+    let numbers = vec![1, 2, 3, 4, 5];
+    match calculate_sum(&numbers) {
+        Ok(sum) => println!("Sum: {}", sum),
+        Err(err) => eprintln!("Error: {}", err),
+    }
 }
