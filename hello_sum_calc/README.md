@@ -284,6 +284,20 @@ act --dryrun
 act push --verbose
 ```
 
+**Skip GitHub Actions:**
+```bash
+# Skip CI/CD with commit message
+git commit -m "feat: add new feature [skip ci]"
+git push
+
+# Skip CI/CD with push flag (skips all pre-push hooks)
+git push --no-verify
+
+# Skip specific workflow
+git commit -m "feat: add new feature [skip rust-ci]"
+git push
+```
+
 ## Credits
 
 This project was created to test rust-analyzer and Clippy integration as part of learning Rust development best practices.
