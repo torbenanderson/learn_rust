@@ -20,9 +20,12 @@ jobs:
     
     # Sequential steps to validate code quality
     steps:
-      # Step 1: Set up the GitHub Actions environment
+      # Step 1: Set up the GitHub Actions environment with PTA
       - name: Checkout code
         uses: actions/checkout@v4  # Check out the repository code
+        with:
+          # Use PTA for enhanced permissions (optional - only needed for private repos or special permissions)
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       # Step 2: Set up Rust toolchain (official GitHub action)
       - name: Set up Rust
@@ -49,4 +52,16 @@ jobs:
       
       # Step 7: Security audit of dependencies
       - name: Audit
-        run: cargo audit  # Check for known security vulnerabilities in dependencies 
+        run: cargo audit  # Check for known security vulnerabilities in dependencies
+      
+      # Step 8: Example of using PTA for additional operations (optional)
+      - name: Example PTA usage
+        if: false  # Disabled by default - enable when needed
+        run: |
+          # Example: Use PTA for GitHub API calls or other authenticated operations
+          echo "Using PTA for enhanced permissions"
+          # curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          #      -H "Accept: application/vnd.github.v3+json" \
+          #      https://api.github.com/repos/${{ github.repository }}/issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

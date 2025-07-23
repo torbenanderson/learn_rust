@@ -56,7 +56,7 @@
             "iconColour": "#000000"
         },
         "IDEA:": {
-            "icon": "lightbulb",
+            "icon": "light-bulb",
             "foreground": "#000000",
             "background": "#ffffff",
             "iconColour": "#000000"
@@ -74,19 +74,19 @@
             "iconColour": "#000000"
         },
         "CHANGED:": {
-            "icon": "refresh",
+            "icon": "sync",
             "foreground": "#000000",
             "background": "#ffffff",
             "iconColour": "#000000"
         },
         "WARNING:": {
-            "icon": "warning",
+            "icon": "alert",
             "foreground": "#000000",
             "background": "#ffffff",
             "iconColour": "#000000"
         },
         "WARN:": {
-            "icon": "warning",
+            "icon": "alert",
             "foreground": "#000000",
             "background": "#ffffff",
             "iconColour": "#000000"
